@@ -35,18 +35,63 @@ function conexionmysql() {
 conexionmysql();
 
 function listaDeJuegos(tabla){
-    return prueba
+    return new Promise ((resolve, reject) => {
+        conexion.query(`SELECT * FROM ${tabla}`, (error, result) => {
+            if(error) return reject(error);
+            resolve(result);
+        })
+    })
 }
 
-function leerJuego(tabla, id){}
+function leerJuego(tabla, id){
+    return new Promise ((resolve, reject) => {
+        conexion.query(`SELECT * FROM ${tabla} WHERE id=${id}`, (error, result) => {
+            if(error) return reject(error);
+            resolve(result);
+        })
+    })
+}
 
 function agregarJuego(tabla, data){}
 
 function eliminarJuego(tabla, id){}
 
+
+// modulo usuarios
+function listaDeUsuarios(tabla){
+    return new Promise ((resolve, reject) => {
+        conexion.query(`SELECT * FROM ${tabla}`, (error, result) => {
+            if(error) return reject(error);
+            resolve(result);
+        })
+    })
+}
+
+function leerUsuario(tabla, id){
+    return new Promise ((resolve, reject) => {
+        conexion.query(`SELECT * FROM ${tabla} WHERE id=${id}`, (error, result) => {
+            if(error) return reject(error);
+            resolve(result);
+        })
+    })
+}
+function agregarUsuario(tabla, data){}
+
+function eliminarUsuario(tabla, id){
+    return new Promise ((resolve, reject) => {
+        conexion.query(`DELETE * FROM ${tabla} WHERE id=${id}`, data.id, (error, result) => {
+            return error ? reject(error) : resolve(result);
+        })
+    });
+}
 module.exports = {
     listaDeJuegos,
     leerJuego,
     agregarJuego,
-    eliminarJuego
+    eliminarJuego,
+    // modulo usuarios
+    listaDeUsuarios,
+    leerUsuario,
+    agregarUsuario,
+    eliminarUsuario
 }
