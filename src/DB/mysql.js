@@ -36,7 +36,7 @@ conexionmysql();
 
 function listaDeJuegos(tabla){
     return new Promise ((resolve, reject) => {
-        conexion.query(`SELECT * FROM ${tabla}`, (error, result) => {
+        conexion.query(`SELECT * FROM ??`,[tabla], (error, result) => {
             if(error) return reject(error);
             resolve(result);
         })
@@ -75,23 +75,61 @@ function leerUsuario(tabla, id){
         })
     })
 }
-function agregarUsuario(tabla, data){}
+
+function guardarUsuario(tabla, data) {
+    return new Promise((resolve, reject) => {
+        if (!tabla || typeof data !== 'object' || !Object.keys(data).length) {
+            return reject(new Error('Tabla u objeto invalido'));
+        }
+        const keys = Object.keys(data);
+        const updates = keys.map(key => `${key} = VALUES(${key})`).join(', ');
+
+        let sql;
+        let parametros;
+
+        if (data.id === 0 || data.id == null) {
+            sql = `INSERT INTO ?? SET ? ON DUPLICATE KEY UPDATE ${updates}`;
+            parametros = [tabla, data];
+        } else {
+            sql = `UPDATE ?? SET ? WHERE id = ?`;
+            parametros = [tabla, data, data.id];
+        }
+        conexion.query(sql, parametros, (error, result) => {
+            if (error) {
+                const mensajeError = error.message || 'Ocurrio un error';
+                return reject(new Error(`Error al guardar usuario: ${mensajeError}`));
+            }
+            resolve(result);
+        })
+    })
+}
 
 function eliminarUsuario(tabla, id){
     return new Promise ((resolve, reject) => {
-        conexion.query(`DELETE * FROM ${tabla} WHERE id=${id}`, data.id, (error, result) => {
+        conexion.query(`DELETE FROM ?? WHERE id= ?`, [tabla, id], (error, result) => {
             return error ? reject(error) : resolve(result);
         })
     });
 }
+
+function query(tabla, consulta){
+    return new Promise((resolve, reject) => {
+        conexion.query(`SELECT * FROM ?? WHERE ?`, [tabla, consulta], (error, result) => {
+            return error ? reject(error) : resolve(result[0]);
+        })
+    });
+}
 module.exports = {
+    // modulo juegos
     listaDeJuegos,
     leerJuego,
     agregarJuego,
     eliminarJuego,
+
     // modulo usuarios
     listaDeUsuarios,
     leerUsuario,
-    agregarUsuario,
-    eliminarUsuario
+    guardarUsuario,
+    eliminarUsuario,
+    query
 }
