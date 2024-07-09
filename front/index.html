@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/styles.css" />
+</head>
+
+<body>
+    <h1 class="titulo-principal">GameStation CRUD</h1>
+    <h2>Añadir Juego Nuevo</h2>
+    <form id="juegoForm">
+        <input type="text" id="nombre" placeholder="Nombre" required />
+        <textarea name="descripcion" id="descripcion"></textarea>
+        <input type="number" id="precio" placeholder="Precio" required />
+        <input type="date" id="fechaLanzamiento" placeholder="Fecha de Lanzamiento" required />
+        <button type="submit">Añadir juego</button>
+    </form>
+    <h2 class="">Lista de Juegos</h2>
+    <div class="contenedor-tabla">
+        <table id="listaJuegos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Fecha de Lanzamiento</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script src="./js/main.js"></script>
+    <script src="./js/juegos.js"></script>
+</body>
+
+</html>
