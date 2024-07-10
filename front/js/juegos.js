@@ -76,19 +76,19 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     // formulario para crear juego nuevo
 
-    // const crearJuego = async (juego) => {
-    //     try {
-    //         const response = await fetch(`${api_url}/api/juegos`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${localStorage.getItem('token')}`
-    //             },
-    //             body: JSON.stringify(juego)
-    //         });
-    //     } catch {
-    //         console.error('Error al crear juego:', error);
-    //     }
-    // };
+     /* const crearJuego = async (juego) => {
+         try {
+             const response = await fetch(`${api_url}/api/juegos`, {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': `Bearer ${localStorage.getItem('token')}`
+                 },
+                 body: JSON.stringify(juego)
+             });
+         } catch {
+             console.error('Error al crear juego:', error);
+         }
+     }; */
     fetchJuegos();
 });
