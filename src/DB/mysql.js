@@ -52,10 +52,29 @@ function leerJuego(tabla, id){
     })
 }
 
-function agregarJuego(tabla, data){}
+function agregarJuego(tabla, juego) {
+    return new Promise((resolve, reject) => {
+        const sql = `INSERT INTO ?? (nombre, descripcion, precio, fecha_lanzamiento) VALUES (?, ?, ?, ?)`;
+        const parametros = [tabla, juego.nombre, juego.descripcion, juego.precio, juego.fecha_lanzamiento];
 
-function eliminarJuego(tabla, id){}
+        conexion.query(sql, parametros, (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+    });
+}
 
+function eliminarJuego(tabla, id) {
+    return new Promise((resolve, reject) => {
+        const sql = `DELETE FROM ?? WHERE id = ?`;
+        const parametros = [tabla, id];
+
+        conexion.query(sql, parametros, (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+    });
+}
 
 // modulo usuarios
 function listaDeUsuarios(tabla){

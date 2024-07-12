@@ -13,6 +13,12 @@ module.exports = function (dbInyectada) {
     function leerJuego(id) {
         return db.leerJuego(TABLA, id);
     }
-    return { listaDeJuegos, leerJuego };
+    function agregarJuego(data) {
+        return db.agregarJuego(TABLA, data);
+    }
+    function eliminarJuego(id) {
+        return db.eliminarJuego(TABLA, id);
+    }
+    return { listaDeJuegos, leerJuego, agregarJuego, eliminarJuego };
 
 }
