@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const config = require('../config');
+const { param } = require('../modulos/juegos/rutas');
 
 const dbConfig = {
     host: config.mysql.host,
@@ -52,18 +53,35 @@ function leerJuego(tabla, id){
     })
 }
 
-function agregarJuego(tabla, juego) {
+function agregarJuego(tabla, data) {
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO ?? (nombre, descripcion, precio, fecha_lanzamiento) VALUES (?, ?, ?, ?)`;
-        const parametros = [tabla, juego.nombre, juego.descripcion, juego.precio, juego.fecha_lanzamiento];
+        if (!tabla || typeof data!== 'object' || Object.keys(data).length === 0) {
+            return reject(new Error('Tabla u otro objeto invalido'));
+        }
+        const keys = Object.keys(data);
+        const updates = keys.map(key => `${key} = VALUES(${key})`).join(', ');
 
+        let sql;
+        let parametros;
+
+        if (data.id === 0 || data.id == null) {
+            // id nulo o 0 se agrega un juego
+            sql = `INSERT INTO ?? SET ? ON DUPLICATE KEY UPDATE ${updates}`;
+            parametros = [tabla, data];
+        } else {
+            // id existente se actualiza
+            sql = `UPDATE ?? SET ? WHERE id = ?`;
+            parametros = [tabla, data, data.id];
+        }
         conexion.query(sql, parametros, (error, result) => {
-            if (error) return reject(error);
+            if (error) {
+                const mensajeError = error.message || 'Ocurrio un error';
+                return reject(new Error(`Error al guardar juego: ${mensajeError}`));
+            }
             resolve(result);
-        });
-    });
-}
-
+        })
+    })
+};
 function eliminarJuego(tabla, id) {
     return new Promise((resolve, reject) => {
         const sql = `DELETE FROM ?? WHERE id = ?`;
