@@ -1,13 +1,20 @@
+// Importación de modulo express (para enrutamiento, middlewares y manejo de solicitudes/respuestas)
 const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const config = require('./config');
 
+// Implementación de CORS (para seguridad)
+const cors = require('cors');
+
+// Importación de MORGAN 
+const morgan = require('morgan');
+
+// Importación del módulos internos
+const config = require('./config');
 const juegos = require('./modulos/juegos/rutas')
 const usuarios = require('./modulos/usuarios/rutas')
 const autenticacion = require('./modulos/autenticacion/rutas')
 const error = require('./red/errors');
 
+// Creación la instancia de express
 const app = express();
 
 var corsOptions = {
