@@ -21,4 +21,30 @@ router.get('/:id', async function (req, res) {
         respuesta.error(req, res, err, 500);
     }
 });
+router.post('/', async function (req, res) {
+    try {
+        const juego = req.body;
+        await controlador.agregarJuego(juego);
+        respuesta.success(req, res, 'Juego agregado correctamente', 201);
+    } catch (err) {
+        respuesta.error(req, res, 'Error al agregar el juego', 500, err);
+    }
+});
+router.put('/:id', async function (req, res) {
+    try {
+        const juego = req.body;
+        await controlador.editarJuego(req.params.id, juego);
+        respuesta.success(req, res, 'Juego editado correctamente', 200);
+    } catch (err) {
+        respuesta.error(req, res, 'Error al editar el juego', 500, err);
+    }
+});
+router.delete('/:id', async function (req, res) {
+    try {
+        await controlador.eliminarJuego(req.params.id);
+        respuesta.success(req, res, 'Juego eliminado correctamente', 200);
+    } catch (err) {
+        respuesta.error(req, res, 'Error al eliminar el juego', 500, err);
+    }
+});
 module.exports = router;
